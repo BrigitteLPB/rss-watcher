@@ -1,0 +1,4 @@
+__pychache__
+Pipfile*
+.env
+.vscode
