@@ -1,7 +1,9 @@
 from os import environ
 from rss_watcher import RSSWatcher
 from set_interval import SetInterval
+import logging
 
+logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
     print("starting ! ~UzU~")
@@ -11,6 +13,15 @@ if __name__ == "__main__":
     if not feedlist:
         raise ValueError("No feed found ! Check env var FEEDLIST")
 
+    # settings up tor proxy
+    tor_proxy_address = environ.get("TOR_PROXY_ADDRESS", "")
+    tor_proxy_port = environ.get("TOR_PROXY_PORT", "")
+
+    if tor_proxy_address and tor_proxy_port:
+        RSSWatcher.setup_tor_proxy(
+            tor_proxy_address=tor_proxy_address, tor_proxy_port=int(tor_proxy_port)
+        )
+
     feeds = [
         RSSWatcher(feed_url=feed_url, update_timeout=10000)
         for feed_url in feedlist.split(",")
@@ -18,13 +29,18 @@ if __name__ == "__main__":
 
     def parse_feeds():
         for feed in feeds:
-            for entry in feed.get_news():
-                print("-----------------------------------------------")
-                print(f">>> {feed.data.feed.get('title', '')}'s news")
-                print(f"Titre: {entry.get('title', '')}")
-                print(f"Description: {entry.get('summary', '')}")
-                print(f"Lien: {entry.get('link', '')}")
-                print(f"Date: {entry.get('updated', '')}")
-                print()
+            try:
+                for entry in feed.get_news():
+                    print("-----------------------------------------------")
+                    print(f">>> <{feed.feed_url}>'s news")
+                    print(f"Titre: {entry.get('title', '')}")
+                    print(f"Description: {entry.get('summary', '')}")
+                    print(f"Lien: {entry.get('link', '')}")
+                    print(f"Date: {entry.get('updated', '')}")
+                    print()
 
-    SetInterval(interval=20, action=parse_feeds)
+            except Exception as e:
+                logger.error(f"Error while fetchning news on {feed.feed_url}")
+                logger.exception(e)
+
+    SetInterval(interval=10, action=parse_feeds, start_immediatly=True)
