@@ -29,6 +29,8 @@ requests = "==2.31.0"
 sgmllib3k = "==1.0.0"
 urllib3 = "==2.1.0"
 virtualenv = "==20.25.0"
+keyboard = "==0.13.5"
+stem = "==1.8.2"
 
 [dev-packages]
 

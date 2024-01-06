@@ -22,9 +22,7 @@ class SetInterval:
 
         while not self.stopEvent.wait(nextTime - time.time()):
             nextTime += self.interval
-
-            if not self.start_immediatly:
-                self.action()
+            self.action()
 
     def cancel(self):
         self.stopEvent.set()

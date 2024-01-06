@@ -3,25 +3,18 @@ from time import mktime
 from datetime import datetime, timedelta, timezone
 from requests import session, Session, RequestException, get
 import logging
+from proxy import Proxy
 
 logger = logging.getLogger(__name__)
 
 
 class RSSWatcher:
-    tor_proxy: dict = None
-
-    @classmethod
-    def setup_tor_proxy(cls, tor_proxy_address: str):
-        """
-        Create a tor proxy
-        """
-        cls.tor_proxy = {
-            "http": tor_proxy_address,
-            "https": tor_proxy_address,
-        }
-
     def __init__(
-        self, feed_url: str, update_timeout: int = 500, ignore_first: bool = False
+        self,
+        feed_url: str,
+        update_timeout: int = 500,
+        ignore_first: bool = False,
+        proxy: Proxy = None,
     ) -> None:
         """
         update_timeout : time in ms before feed update
@@ -32,6 +25,7 @@ class RSSWatcher:
         self.update_timeout = timedelta(milliseconds=update_timeout)
         self._feed_updated_at = datetime.min.replace(tzinfo=timezone.utc)
         self.ignore_first = ignore_first
+        self.proxy = proxy or Proxy()
 
     @property
     def data(self):
@@ -40,13 +34,7 @@ class RSSWatcher:
 
         if now > self._feed_updated_at + self.update_timeout:
             try:
-                if self.tor_proxy:
-                    # using tor
-                    reponse = get(self.feed_url, proxies=self.tor_proxy)
-                    self._feed: FeedParserDict = parse(reponse.text)
-                else:
-                    # using default proxy
-                    self._feed: FeedParserDict = parse(self.feed_url)
+                self._feed: FeedParserDict = parse(self.proxy.get(self.feed_url))
             except RequestException as e:
                 logger.error(f"Connection error for the RSS feed {self.feed_url}")
                 logger.exception(e)

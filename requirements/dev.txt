@@ -24,6 +24,8 @@ idna==3.6
     # via requests
 iniconfig==2.0.0
     # via pytest
+keyboard==0.13.5
+    # via -r requirements\prod.in
 nodeenv==1.8.0
     # via pre-commit
 packaging==23.2
@@ -42,6 +44,8 @@ requests==2.31.0
     # via -r requirements\prod.in
 sgmllib3k==1.0.0
     # via feedparser
+stem==1.8.2
+    # via -r requirements\prod.in
 urllib3==2.1.0
     # via requests
 virtualenv==20.25.0

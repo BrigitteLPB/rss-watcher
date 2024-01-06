@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6c21d5c1c7a7d1cbe5b3fcf9c235641d059c728ebc57cdc526a629cd2631cdda"
+            "sha256": "844af8f93daf56e3adee6e7089fc6ca4c589d88aa66ef62dffb8ededef53b4e1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -242,6 +242,14 @@
                 "sha256:d3eab6605e3ec8b7a0863df09cc1d23714908fa61aa6986a845c20ba488b4efa"
             ],
             "version": "==0.2.0"
+        },
+        "keyboard": {
+            "hashes": [
+                "sha256:63ed83305955939ca5c9a73755e5cc43e8242263f5ad5fd3bb7e0b032f3d308b",
+                "sha256:8e9c2422f1217e0bd84489b9ecd361027cc78415828f4fe4f88dd4acd587947b"
+            ],
+            "index": "pypi",
+            "version": "==0.13.5"
         },
         "make": {
             "hashes": [
@@ -490,6 +498,13 @@
             ],
             "index": "pypi",
             "version": "==0"
+        },
+        "stem": {
+            "hashes": [
+                "sha256:83fb19ffd4c9f82207c006051480389f80af221a7e4783000aedec4e384eb582"
+            ],
+            "index": "pypi",
+            "version": "==1.8.2"
         },
         "types-python-dateutil": {
             "hashes": [
