@@ -14,13 +14,8 @@ if __name__ == "__main__":
         raise ValueError("No feed found ! Check env var FEEDLIST")
 
     # settings up tor proxy
-    tor_proxy_address = environ.get("TOR_PROXY_ADDRESS", "")
-    tor_proxy_port = environ.get("TOR_PROXY_PORT", "")
-
-    if tor_proxy_address and tor_proxy_port:
-        RSSWatcher.setup_tor_proxy(
-            tor_proxy_address=tor_proxy_address, tor_proxy_port=int(tor_proxy_port)
-        )
+    if tor_proxy_address := environ.get("TOR_PROXY_ADDRESS", ""):
+        RSSWatcher.setup_tor_proxy(tor_proxy_address=tor_proxy_address)
 
     feeds = [
         RSSWatcher(feed_url=feed_url, update_timeout=10000)
@@ -43,4 +38,4 @@ if __name__ == "__main__":
                 logger.error(f"Error while fetchning news on {feed.feed_url}")
                 logger.exception(e)
 
-    SetInterval(interval=10, action=parse_feeds, start_immediatly=True)
+    SetInterval(interval=10, action=parse_feeds, start_immediatly=False)

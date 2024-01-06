@@ -4,9 +4,17 @@
 #
 #    pip-compile requirements/prod.in
 #
+certifi==2023.11.17
+    # via requests
+charset-normalizer==3.3.2
+    # via requests
 feedparser==6.0.11
     # via -r requirements/prod.in
-pysocks==1.7.1
+idna==3.6
+    # via requests
+requests==2.31.0
     # via -r requirements/prod.in
 sgmllib3k==1.0.0
     # via feedparser
+urllib3==2.1.0
+    # via requests
